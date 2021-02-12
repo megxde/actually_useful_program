@@ -1,2 +1,7 @@
-workspace.code-workspace
+Virtual Macroboard.code-workspace
 commands_info.json
+image_data.json
+test.py
+test.json
+justanother.py
+images/*

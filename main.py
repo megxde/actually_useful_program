@@ -4,6 +4,7 @@ import webbrowser
 import tkinter as tk
 import json
 import time
+from PIL import Image, ImageTk
 
 os.chdir("C:\\Users\\batub\\OneDrive\\Masaüstü\\misc\\shortcuts")
 webbrowser.register('chrome', None,	webbrowser.BackgroundBrowser("C://Program Files (x86)//Google//Chrome//Application//chrome.exe"))
@@ -12,6 +13,7 @@ changing_mode = False
 button_to_change = None
 command_to_execute = None
 cause_of_error = None
+button_to_check = None
 
 main_window = tk.Tk()
 
@@ -39,7 +41,6 @@ def launch_error_window():
     global cause_of_error
     error_window.title(f"Error: {command_to_execute}")
     error_label = tk.Label(error_window, text=cause_of_error, bg="purple", fg="white", wraplengt=200, borderwidth=2, relief="raised")
-    error_label.pack()
     error_label.place(x=0, y=0, height=200, width=300)
 
     error_window.update()
@@ -53,7 +54,6 @@ error_window.propagate(False)
 
 
 sorry_button = tk.Button(error_window, text="Alright, sorry that I broke your program.", bg="purple", fg="white", wraplengt=100, command=error_button_pressed)
-sorry_button.pack()
 sorry_button.place(x=100, y=200, height=100, width=100)
 
 
@@ -127,11 +127,14 @@ def save_command_url_path():
     url_to_save = url_entry.get()
     path_to_save = path_entry.get()
     shortcut_path_to_save = shortcut_path_entry.get()
+    image_name_to_save = image_name_entry.get()
     url_entry.delete(0, 'end')
     path_entry.delete(0, 'end')
     shortcut_path_entry.delete(0, 'end')
+    image_name_entry.delete(0, 'end')
     folder_path = os.path.dirname(os.path.abspath(__file__))
     json_path = os.path.join(folder_path, 'commands_info.json')
+    image_json_path = os.path.join(folder_path, 'image_data.json')
     with open(json_path, "r") as file:
         data = json.load(file)
     if url_to_save != "":
@@ -143,6 +146,14 @@ def save_command_url_path():
     os.remove(json_path)
     with open(json_path, "w") as file:
         json.dump(data, file, indent=2)
+    if image_name_to_save != "":
+        with open(image_json_path, "r") as file:
+            image_data = json.load(file)
+        image_to_change = f"button{button_to_change[-3:]}_image"
+        image_data[image_to_change] = image_name_to_save
+        os.remove(image_json_path)
+        with open(image_json_path, "w") as file:
+            json.dump(image_data, file, indent=2)
     button_changing_window.withdraw()
 
 
@@ -153,32 +164,34 @@ button_changing_window.configure(bg="red")
 main_window.propagate(False)  
 
 url_label = tk.Label(button_changing_window, text="Url:", bg="green", fg="black")
-url_label.pack()
 url_label.place(x=0, y=0, width=20)
 
 url_entry = tk.Entry(button_changing_window)
-url_entry.pack()
 url_entry.place(x=20, y=1)
 
 path_label = tk.Label(button_changing_window, text="Path:", bg="green", fg="black")
-path_label.pack()
 path_label.place(x=0, y=20, width=25)
 
 path_entry = tk.Entry(button_changing_window)
-path_entry.pack()
 path_entry.place(x=25, y=21)    
 
 shortcut_path_label = tk.Label(button_changing_window, text="Shortcut Path:", bg="green", fg="black")
-shortcut_path_label.pack()
 shortcut_path_label.place(x=0, y=40, width=73)
 
 shortcut_path_entry = tk.Entry(button_changing_window)
-shortcut_path_entry.pack()
 shortcut_path_entry.place(x=73, y=41)   
 
+image_warning_label = tk.Label(button_changing_window, text="The image has to be in the 'images' folder.", bg="green", fg="black")
+image_warning_label.place(x=0, y=60)
+
+image_name_label = tk.Label(button_changing_window, text="Image name:", bg="green", fg="black")
+image_name_label.place(x=0, y=80, width=71)
+
+image_name_entry = tk.Entry(button_changing_window)
+image_name_entry.place(x=71, y=81)
+
 save_button = tk.Button(button_changing_window, text="Save", bg="green", fg="black", command=save_command_url_path)
-save_button.pack()
-save_button.place(x=0, y=75)
+save_button.place(x=0, y=120)
 
 button_changing_window.withdraw()
 
@@ -473,161 +486,63 @@ def command5x5():
 
 
 
-
-
-
-button1x1 = tk.Button(main_window, text="number1x1", bg="purple", fg="white", command=command1x1)
-button1x1.pack()
-button1x1.place(x=0, y=0, height=100, width=100)
-
-
-
-button1x2 = tk.Button(main_window, text="number1x2", bg="purple", fg="white", command=command1x2)
-button1x2.pack()
-button1x2.place(x=100, y=0, height=100, width=100)
-
-
-
-button1x3 = tk.Button(main_window, text="number1x3", bg="purple", fg="white", command=command1x3)
-button1x3.pack()
-button1x3.place(x=200, y=0, height=100, width=100)
-
-
-
-button1x4 = tk.Button(main_window, text="number1x4", bg="purple", fg="white", command=command1x4)
-button1x4.pack()
-button1x4.place(x=300, y=0, height=100, width=100)
-
-
-
-button1x5 = tk.Button(main_window, text="number1x5", bg="purple", fg="white", command=command1x5)
-button1x5.pack()
-button1x5.place(x=400, y=0, height=100, width=100)
-
-
-
-button2x1 = tk.Button(main_window, text="number2x1", bg="purple", fg="white", command=command2x1)
-button2x1.pack()
-button2x1.place(x=0, y=100, height=100, width=100)
-
-
-
-button2x2 = tk.Button(main_window, text="number2x2", bg="purple", fg="white", command=command2x2)
-button2x2.pack()
-button2x2.place(x=100, y=100, height=100, width=100)
-
-
-
-button2x3 = tk.Button(main_window, text="number2x3", bg="purple", fg="white", command=command2x3)
-button2x3.pack()
-button2x3.place(x=200, y=100, height=100, width=100)
-
-
-
-button2x4 = tk.Button(main_window, text="number2x4", bg="purple", fg="white", command=command2x4)
-button2x4.pack()
-button2x4.place(x=300, y=100, height=100, width=100)
-
-
-
-button2x5 = tk.Button(main_window, text="number2x5", bg="purple", fg="white", command=command2x5)
-button2x5.pack()
-button2x5.place(x=400, y=100, height=100, width=100)
-
-
-
-button3x1 = tk.Button(main_window, text="number3x1", bg="purple", fg="white", command=command3x1)
-button3x1.pack()
-button3x1.place(x=0, y=200, height=100, width=100)
-
-
-
-button3x2 = tk.Button(main_window, text="number3x2", bg="purple", fg="white", command=command3x2)
-button3x2.pack()
-button3x2.place(x=100, y=200, height=100, width=100)
-
-
-
-button3x3 = tk.Button(main_window, text="number3x3", bg="purple", fg="white", command=command3x3)
-button3x3.pack()
-button3x3.place(x=200, y=200, height=100, width=100)
-
-
-
-button3x4 = tk.Button(main_window, text="number3x4", bg="purple", fg="white", command=command3x4)
-button3x4.pack()
-button3x4.place(x=300, y=200, height=100, width=100)
-
-
-
-button3x5 = tk.Button(main_window, text="number3x5", bg="purple", fg="white", command=command3x5)
-button3x5.pack()
-button3x5.place(x=400, y=200, height=100, width=100)
-
-
-
-button4x1 = tk.Button(main_window, text="number4x1", bg="purple", fg="white", command=command4x1)
-button4x1.pack()
-button4x1.place(x=0, y=300, height=100, width=100)
-
-
-
-button4x2 = tk.Button(main_window, text="number4x2", bg="purple", fg="white", command=command4x2)
-button4x2.pack()
-button4x2.place(x=100, y=300, height=100, width=100)
-
-
-
-button4x3 = tk.Button(main_window, text="number4x3", bg="purple", fg="white", command=command4x3)
-button4x3.pack()
-button4x3.place(x=200, y=300, height=100, width=100)
-
-
-
-button4x4 = tk.Button(main_window, text="number4x4", bg="purple", fg="white", command=command4x4)
-button4x4.pack()
-button4x4.place(x=300, y=300, height=100, width=100)
-
-
-
-button4x5 = tk.Button(main_window, text="number4x5", bg="purple", fg="white", command=command4x5)
-button4x5.pack()
-button4x5.place(x=400, y=300, height=100, width=100)
-
-
-
-button5x1 = tk.Button(main_window, text="number5x1", bg="purple", fg="white", command=command5x1)
-button5x1.pack()
-button5x1.place(x=0, y=400, height=100, width=100)
-
-
-
-button5x2 = tk.Button(main_window, text="number5x2", bg="purple", fg="white", command=command5x2)
-button5x2.pack()
-button5x2.place(x=100, y=400, height=100, width=100)
-
-
-
-button5x3 = tk.Button(main_window, text="number5x3", bg="purple", fg="white", command=command5x3)
-button5x3.pack()
-button5x3.place(x=200, y=400, height=100, width=100)
-
-
-
-button5x4 = tk.Button(main_window, text="number5x4", bg="purple", fg="white", command=command5x4)
-button5x4.pack()
-button5x4.place(x=300, y=400, height=100, width=100)
-
-
-
-button5x5 = tk.Button(main_window, text="number5x5", bg="purple", fg="white", command=command5x5)
-button5x5.pack()
-button5x5.place(x=400, y=400, height=100, width=100)
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'image_data.json'), "r") as image_json:
+    image_data = json.load(image_json)
+
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'placing_data.json'), "r") as placing_json:
+    placing_data = json.load(placing_json)
+
+image_folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
+
+list_index = 0
+
+from all_lists import buttons, image_list
+
+for button in buttons:
+    img_value = image_data[f"{button}_image"]
+    if img_value != "":
+        image_path = os.path.join(image_folder_path, img_value)
+        button_image = ImageTk.PhotoImage(Image.open(image_path). resize((100, 100), Image.ANTIALIAS))
+        buttons[list_index] = tk.Button(main_window, image=button_image, **bg_fg_var)
+    else:
+        buttons[list_index] = tk.Button(main_window, text=f"number{button[-3:]}", **bg_fg_var)
+    raw_placement_data = placing_data[f"{button}"]
+    x, y = raw_placement_data.split(" ")
+    int_x = int(x)
+    int_y = int(y)
+    buttons[list_index].place(x=int_x, y=int_y, height=100, width=100)  # pylint: disable=maybe-no-member
+    list_index+=1
+    if list_index == 25:
+        buttons[0].configure(command=command1x1)    # pylint: disable=maybe-no-member
+        buttons[1].configure(command=command1x2)    # pylint: disable=maybe-no-member
+        buttons[2].configure(command=command1x3)    # pylint: disable=maybe-no-member
+        buttons[3].configure(command=command1x4)    # pylint: disable=maybe-no-member
+        buttons[4].configure(command=command1x5)    # pylint: disable=maybe-no-member
+        buttons[5].configure(command=command2x1)    # pylint: disable=maybe-no-member
+        buttons[6].configure(command=command2x2)    # pylint: disable=maybe-no-member
+        buttons[7].configure(command=command2x3)    # pylint: disable=maybe-no-member
+        buttons[8].configure(command=command2x4)    # pylint: disable=maybe-no-member
+        buttons[9].configure(command=command2x5)    # pylint: disable=maybe-no-member
+        buttons[10].configure(command=command3x1)   # pylint: disable=maybe-no-member
+        buttons[11].configure(command=command3x2)   # pylint: disable=maybe-no-member
+        buttons[12].configure(command=command3x3)   # pylint: disable=maybe-no-member
+        buttons[13].configure(command=command3x4)   # pylint: disable=maybe-no-member
+        buttons[14].configure(command=command3x5)   # pylint: disable=maybe-no-member
+        buttons[15].configure(command=command4x1)   # pylint: disable=maybe-no-member
+        buttons[16].configure(command=command4x2)   # pylint: disable=maybe-no-member
+        buttons[17].configure(command=command4x3)   # pylint: disable=maybe-no-member
+        buttons[18].configure(command=command4x4)   # pylint: disable=maybe-no-member
+        buttons[19].configure(command=command4x5)   # pylint: disable=maybe-no-member
+        buttons[20].configure(command=command5x1)   # pylint: disable=maybe-no-member
+        buttons[21].configure(command=command5x2)   # pylint: disable=maybe-no-member
+        buttons[22].configure(command=command5x3)   # pylint: disable=maybe-no-member
+        buttons[23].configure(command=command5x4)   # pylint: disable=maybe-no-member
+        buttons[24].configure(command=command5x5)   # pylint: disable=maybe-no-member
+        break
 
 
 
 change_button = tk.Button(main_window, text="Changing mode", bg="purple", fg="white", command=change_command)
-change_button.pack()
 change_button.place(x=0, y=500, height=100, width=500)
 
 
