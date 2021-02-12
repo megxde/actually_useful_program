@@ -5,3 +5,8 @@ test.py
 test.json
 justanother.py
 images/*
+
+
+#bs python stuff
+__pycache__/
+*.py[cod]
