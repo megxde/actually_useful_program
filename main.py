@@ -6,7 +6,6 @@ import json
 import time
 from PIL import Image, ImageTk
 
-os.chdir("C:\\Users\\batub\\OneDrive\\Masaüstü\\misc\\shortcuts")
 webbrowser.register('chrome', None,	webbrowser.BackgroundBrowser("C://Program Files (x86)//Google//Chrome//Application//chrome.exe"))
 
 changing_mode = False
@@ -62,54 +61,6 @@ error_window.withdraw()
 
 
 
-# def execute_command():
-#     global command_to_execute
-#     global cause_of_error
-#     folder_path = os.path.dirname(os.path.abspath(__file__))
-#     json_path = os.path.join(folder_path, 'commands_info.json')
-#     with open(json_path, "r") as info:
-#         info_data = json.load(info)
-#         url = info_data[command_to_execute]["url"]
-#         path = info_data[command_to_execute]["path"]
-#         shortcut_path = info_data[command_to_execute]["shortcut_path"]
-
-#     if url != "" and path != "" and shortcut_path != "":
-#         cause_of_error = "The program broke. How did you manage to get everything filled up? Fix it yourself or reinstall."
-#         launch_error_window()
-#         return
-
-#     elif url == "" and path == "" and shortcut_path == "":
-#         cause_of_error = "You have everything empty for this. Go fill em up."
-#         launch_error_window()
-#         return
-    
-#     elif url != "" and path != "":
-#         cause_of_error = "Two things are filled up at the same time. Go fix it or reinstall."
-#         launch_error_window()
-#         return
-
-#     elif url != "" and shortcut_path != "":
-#         cause_of_error = "Two things are filled up at the same time. Go fix it or reinstall."
-#         launch_error_window()
-#         return
-
-#     elif path != "" and shortcut_path != "":
-#         cause_of_error = "Two things are filled up at the same time. Go fix it or reinstall."
-#         launch_error_window()
-#         return
-
-#     if url != "":
-#         webbrowser.get('chrome').open_new_tab(url)
-#         return
-#     elif path != "":
-#         subprocess.Popen(path)
-#         return
-#     elif shortcut_path != "":
-#         os.startfile(shortcut_path)
-#         return
-
-
-
 def change_command():
     global changing_mode
     if changing_mode == False:
@@ -118,43 +69,6 @@ def change_command():
     elif changing_mode == True:
         changing_mode = False
         change_button.configure(bg="purple", fg="white")    
-
-
-
-# def save_command_url_path():
-#     global button_to_change
-#     command_to_change = f"command{button_to_change[-3:]}"
-#     url_to_save = url_entry.get()
-#     path_to_save = path_entry.get()
-#     shortcut_path_to_save = shortcut_path_entry.get()
-#     image_name_to_save = image_name_entry.get()
-#     url_entry.delete(0, 'end')
-#     path_entry.delete(0, 'end')
-#     shortcut_path_entry.delete(0, 'end')
-#     image_name_entry.delete(0, 'end')
-#     folder_path = os.path.dirname(os.path.abspath(__file__))
-#     json_path = os.path.join(folder_path, 'commands_info.json')
-#     image_json_path = os.path.join(folder_path, 'image_data.json')
-#     with open(json_path, "r") as file:
-#         data = json.load(file)
-#     if url_to_save != "":
-#         data[command_to_change]["url"] = url_to_save
-#     if path_to_save != "":
-#         data[command_to_change]["path"] = path_to_save
-#     if shortcut_path_to_save != "":
-#         data[command_to_change]["shortcut_path"] = shortcut_path_to_save
-#     os.remove(json_path)
-#     with open(json_path, "w") as file:
-#         json.dump(data, file, indent=2)
-#     if image_name_to_save != "":
-#         with open(image_json_path, "r") as file:
-#             image_data = json.load(file)
-#         image_to_change = f"button{button_to_cha:]}"
-#         image_data[image_to_change] = image_name_to_save
-#         os.remove(image_json_path)
-#         with open(image_json_path, "w") as file:
-#             json.dump(image_data, file, indent=2)
-#     button_changing_window.withdraw()
 
 
 
@@ -302,19 +216,6 @@ def launch_button_change_window(arg):
 
 
 
-# def command1x1():
-#     global changing_mode
-#     global button_to_change
-#     global command_to_execute
-#     if changing_mode == True:
-#         button_to_change = "button1x1"
-#         launch_button_change_window()
-#     elif changing_mode == False:
-#         command_to_execute = "command1x1"
-#         execute_command()   
-
-
-
 with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'image_data.json'), "r") as image_json:
     image_data = json.load(image_json)
 
@@ -369,8 +270,6 @@ def callback(arg):
         elif shortcut_path != "":
             os.startfile(shortcut_path)
             return
-        
-
 
 
 
@@ -674,8 +573,6 @@ elif image_5x5_name == "":
     button5x5 = tk.Button(main_window, text="button5x5", **bg_fg_var, command=lambda: callback("5x5"))
 
 button5x5.place(x=400, y=400, height=100, width=100)
-
-
 
 
 
