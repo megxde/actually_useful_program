@@ -4,6 +4,7 @@ import webbrowser
 import tkinter as tk
 import json
 import time
+import sys
 from PIL import Image, ImageTk
 
 webbrowser.register('chrome', None,	webbrowser.BackgroundBrowser("C://Program Files (x86)//Google//Chrome//Application//chrome.exe"))
@@ -16,7 +17,7 @@ button_to_check = None
 
 main_window = tk.Tk()
 
-main_window.wm_geometry("500x600")
+main_window.wm_geometry("500x700")
 main_window.title("Shortcuts App")
 main_window.configure(bg="purple")
 main_window.propagate(False)
@@ -580,6 +581,11 @@ button5x5.place(x=400, y=400, height=100, width=100)
 
 change_button = tk.Button(main_window, text="Changing mode", bg="purple", fg="white", command=change_command)
 change_button.place(x=0, y=500, height=100, width=500)
+
+
+
+exit_button = tk.Button(main_window, text="Exit", bg="purple", fg="white", command=lambda: sys.exit())
+exit_button.place(x=0, y=600, height=100, width=500)
 
 
 
