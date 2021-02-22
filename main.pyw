@@ -81,6 +81,8 @@ def save_url_command():
         data = json.load(file)
     url_to_write = url_entry.get()
     data[button_to_change]["url"] = url_to_write
+    data[button_to_change]["path"] = ""
+    data[button_to_change]["shortcut_path"] = ""
     os.remove(json_path)
     with open(json_path, "w") as file:
         json.dump(data, file, indent=2)
@@ -94,6 +96,8 @@ def save_path_command():
         data = json.load(file)
     path_to_write = path_entry.get()
     data[button_to_change]["path"] = path_to_write
+    data[button_to_change]["url"] = ""
+    data[button_to_change]["shortcut_path"] = ""
     os.remove(json_path)
     with open(json_path, "w") as file:
         json.dump(data, file, indent=2)
@@ -107,27 +111,37 @@ def save_shortcut_path_command():
         data = json.load(file)
     shortcut_path_to_write = shortcut_path_entry.get()
     data[button_to_change]["shortcut_path"] = shortcut_path_to_write
+    data[button_to_change]["url"] = ""
+    data[button_to_change]["path"] = ""
     os.remove(json_path)
     with open(json_path, "w") as file:
         json.dump(data, file, indent=2)
     save_image_withdraw()
 
 def save_image_withdraw():
-    global button_to_change
-    folder_path = os.path.dirname(os.path.abspath(__file__))
-    image_json_path = os.path.join(folder_path, 'image_data.json')
-    with open(image_json_path, "r") as file:
-        image_data = json.load(file)
     image_to_write = image_name_entry.get()
-    image_data[button_to_change] = image_to_write
-    os.remove(image_json_path)
-    with open(image_json_path, "w") as file:
-        json.dump(image_data, file, indent=2)
-    url_entry.delete(0, 'end')
-    path_entry.delete(0, 'end')
-    shortcut_path_entry.delete(0, 'end')
-    image_name_entry.delete(0, 'end')
-    button_changing_window.withdraw()
+    if image_to_write == "":
+        url_entry.delete(0, 'end')
+        path_entry.delete(0, 'end')
+        shortcut_path_entry.delete(0, 'end')
+        image_name_entry.delete(0, 'end')
+        button_changing_window.withdraw()
+    else:
+        global button_to_change
+        folder_path = os.path.dirname(os.path.abspath(__file__))
+        image_json_path = os.path.join(folder_path, 'image_data.json')
+        with open(image_json_path, "r") as file:
+            image_data = json.load(file)
+        image_to_write = image_name_entry.get()
+        image_data[button_to_change] = image_to_write
+        os.remove(image_json_path)
+        with open(image_json_path, "w") as file:
+            json.dump(image_data, file, indent=2)
+        url_entry.delete(0, 'end')
+        path_entry.delete(0, 'end')
+        shortcut_path_entry.delete(0, 'end')
+        image_name_entry.delete(0, 'end')
+        button_changing_window.withdraw()
 
 def clear_button_command():
     global button_to_change
